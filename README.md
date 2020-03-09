@@ -50,7 +50,7 @@ The figure below illustrates this behavior using an example.
 ### Additional notes:
 
 The following block is meant to set a memento for the work of the ***Desert Combat-Wormies***.
-Modified files: README.md, TrainUserImpl.java 
+Modified files:**README.md, TrainUserImpl.java** 
 
 Members:
 * Vilmos Szaszfai
