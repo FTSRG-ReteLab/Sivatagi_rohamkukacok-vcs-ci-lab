@@ -4,4 +4,20 @@ subprojects {
   repositories {
     jcenter()
   }
+  
+  dependencies {
+  // Pick one:
+
+  // 1. Use Guava in your implementation only:
+  implementation("com.google.guava:guava:28.2-jre")
+
+  // 2. Use Guava types in your public API:
+  api("com.google.guava:guava:28.2-jre")
+
+  // 3. Android - Use Guava in your implementation only:
+  implementation("com.google.guava:guava:28.2-android")
+
+  // 4. Android - Use Guava types in your public API:
+  api("com.google.guava:guava:28.2-android")
+ }
 }
