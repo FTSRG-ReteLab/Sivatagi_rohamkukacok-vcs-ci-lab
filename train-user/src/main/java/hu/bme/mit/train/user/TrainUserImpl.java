@@ -15,7 +15,7 @@ public class TrainUserImpl implements TrainUser {
 	public TrainUserImpl(TrainController controller) {
 		this.controller = controller;
 		String rand  = String.valueOf(new Random().nextInt(200));
-		this.ID = 'U' + rand + 20200309
+		this.ID = 'U' + rand + 20200309;
 	}
 
 	@Override
