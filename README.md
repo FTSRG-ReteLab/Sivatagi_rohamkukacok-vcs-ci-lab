@@ -51,6 +51,7 @@ The figure below illustrates this behavior using an example.
 
 The following block is meant to set a memento for the work of the ***Desert Combat-Wormies***.
 Modified files:**README.md, TrainUserImpl.java** 
+All changes are documented.
 
 Members:
 * Vilmos Szaszfai
