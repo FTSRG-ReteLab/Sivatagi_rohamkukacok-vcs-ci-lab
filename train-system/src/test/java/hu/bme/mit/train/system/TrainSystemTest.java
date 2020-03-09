@@ -9,6 +9,13 @@ import hu.bme.mit.train.interfaces.TrainSensor;
 import hu.bme.mit.train.interfaces.TrainUser;
 import hu.bme.mit.train.system.TrainSystem;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+
+
+import java.sql.Time;
+import java.time.LocalDateTime;
+
 public class TrainSystemTest {
 
 	TrainController controller;
@@ -58,5 +65,20 @@ public class TrainSystemTest {
 		controller.followSpeed();
 		Assert.assertEquals(10, controller.getReferenceSpeed());
 	}
-	
+
+	@Test
+	public void givenTable_whenGet_returnsSuccessfully() {
+
+		controller.setSpeedLimit(60);
+
+		Table<LocalDateTime, Integer, Integer> Table
+				= HashBasedTable.create();
+		Table.put(LocalDateTime.now(), user.getJoystickPosition(),controller.getReferenceSpeed());
+
+
+		int ref_speed = controller.getReferenceSpeed();
+
+		Assert.assertEquals(60, ref_speed);
+	}
+
 }
