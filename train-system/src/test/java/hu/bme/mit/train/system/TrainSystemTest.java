@@ -1,5 +1,6 @@
 package hu.bme.mit.train.system;
 
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,14 +70,20 @@ public class TrainSystemTest {
 	@Test
 	public void givenTable_whenGet_returnsSuccessfully() {
 
-		controller.setSpeedLimit(60);
+		sensor.overrideSpeedLimit(60);
+		user.overrideJoystickPosition(60);
+		controller.followSpeed();
 
 		Table<LocalDateTime, Integer, Integer> Table
 				= HashBasedTable.create();
-		Table.put(LocalDateTime.now(), user.getJoystickPosition(),controller.getReferenceSpeed());
+		
+		LocalDateTime t = LocalDateTime.now();
+		
+				
+		Table.put(t, user.getJoystickPosition(),controller.getReferenceSpeed());
 
 
-		int ref_speed = controller.getReferenceSpeed();
+		int ref_speed = Table.get(t, user.getJoystickPosition());
 
 		Assert.assertEquals(60, ref_speed);
 	}

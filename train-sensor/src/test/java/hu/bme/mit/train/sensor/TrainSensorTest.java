@@ -3,7 +3,8 @@ package hu.bme.mit.train.sensor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
+//import static org.mockito.Mockito.*; 
+// NOTE please set it back as you work on LAB3
 
 public class TrainSensorTest {
 
