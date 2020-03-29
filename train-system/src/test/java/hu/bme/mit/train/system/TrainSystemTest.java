@@ -43,7 +43,6 @@ public class TrainSystemTest {
 		
 		user.overrideJoystickPosition(5);
 
-		controller.followSpeed();
 		Assert.assertEquals(5, controller.getReferenceSpeed());
 		controller.followSpeed();
 		Assert.assertEquals(10, controller.getReferenceSpeed());
@@ -54,9 +53,7 @@ public class TrainSystemTest {
 	@Test
 	public void OverridingJoystickPositionToNegative_SetsReferenceSpeedToZero() {
 		user.overrideJoystickPosition(4);
-		controller.followSpeed();
 		user.overrideJoystickPosition(-5);
-		controller.followSpeed();
 		Assert.assertEquals(0, controller.getReferenceSpeed());
 	}
 
@@ -65,7 +62,6 @@ public class TrainSystemTest {
 	public void SpeedLimitTest() {
 		sensor.overrideSpeedLimit(10);
 		user.overrideJoystickPosition(20);
-		controller.followSpeed();
 		Assert.assertEquals(10, controller.getReferenceSpeed());
 	}
 
@@ -74,7 +70,6 @@ public class TrainSystemTest {
 
 		sensor.overrideSpeedLimit(60);
 		user.overrideJoystickPosition(60);
-		controller.followSpeed();
 
 		Table<LocalDateTime, Integer, Integer> Table
 				= HashBasedTable.create();
