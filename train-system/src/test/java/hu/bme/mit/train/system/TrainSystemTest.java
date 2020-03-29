@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import hu.bme.mit.train.controller.TrainControllerImpl;
 import hu.bme.mit.train.interfaces.TrainController;
 import hu.bme.mit.train.interfaces.TrainSensor;
 import hu.bme.mit.train.interfaces.TrainUser;
@@ -16,6 +17,8 @@ import com.google.common.collect.Table;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrainSystemTest {
 
@@ -41,7 +44,6 @@ public class TrainSystemTest {
 		
 		user.overrideJoystickPosition(5);
 
-		controller.followSpeed();
 		Assert.assertEquals(5, controller.getReferenceSpeed());
 		controller.followSpeed();
 		Assert.assertEquals(10, controller.getReferenceSpeed());
@@ -52,9 +54,7 @@ public class TrainSystemTest {
 	@Test
 	public void OverridingJoystickPositionToNegative_SetsReferenceSpeedToZero() {
 		user.overrideJoystickPosition(4);
-		controller.followSpeed();
 		user.overrideJoystickPosition(-5);
-		controller.followSpeed();
 		Assert.assertEquals(0, controller.getReferenceSpeed());
 	}
 
@@ -63,7 +63,6 @@ public class TrainSystemTest {
 	public void SpeedLimitTest() {
 		sensor.overrideSpeedLimit(10);
 		user.overrideJoystickPosition(20);
-		controller.followSpeed();
 		Assert.assertEquals(10, controller.getReferenceSpeed());
 	}
 
@@ -72,7 +71,6 @@ public class TrainSystemTest {
 
 		sensor.overrideSpeedLimit(60);
 		user.overrideJoystickPosition(60);
-		controller.followSpeed();
 
 		Table<LocalDateTime, Integer, Integer> Table
 				= HashBasedTable.create();
@@ -87,5 +85,27 @@ public class TrainSystemTest {
 
 		Assert.assertEquals(60, ref_speed);
 	}
+	
+	@Test
+	public void TimedFollowSpeedCalls() {		
+
+	    int[] positions = new int[] {0, 25, 25, 25, 0, -25, -25, 0};
+	    int[] expected = new int[] {0, 25, 50, 50, 50, 25, 0, 0};
+	    int[] speed = new int[8];
+	    	
+	    TrainControllerImpl control = new TrainControllerImpl();
+	    
+	    control.run();
+	    	
+	    for (int i = 0; i < 7; i++) {
+	    	try {
+	    		Thread.sleep(2000L);
+			} catch (InterruptedException e) {e.printStackTrace();}
+	    	controller.setJoystickPosition(positions[i]);
+	    	speed[i] = controller.getReferenceSpeed();
+	    }
+	    Assert.assertArrayEquals(expected, speed);
+	}
+	
 
 }
