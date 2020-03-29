@@ -16,6 +16,8 @@ import com.google.common.collect.Table;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TrainSystemTest {
 
@@ -87,5 +89,32 @@ public class TrainSystemTest {
 
 		Assert.assertEquals(60, ref_speed);
 	}
+	
+	@Test
+	public void TimedFollowSpeedCalls() {		
+		TimerTask task = new TimerTask() {
+
+		public void run() {
+					controller.followSpeed();
+		};};
+		Timer timer = new Timer("Timer");
+	    long delay = 1000L;
+	    	
+	    int[] positions = new int[] {0, 25, 25, 25, 0, -25, -25, 0};
+	    int[] expected = new int[] {0, 25, 50, 50, 50, 25, 0, 0};
+	    int[] speed = new int[8];
+	    	
+	    timer.schedule(task, delay);
+	    	
+	    for (int i = 0; i < 7; i++) {
+	    	try {
+	    		Thread.sleep(delay*2);
+			} catch (InterruptedException e) {e.printStackTrace();}
+	    	controller.setJoystickPosition(positions[i]);
+	    	speed[i] = controller.getReferenceSpeed();
+	    }
+	    Assert.assertArrayEquals(expected, speed);
+	}
+	
 
 }
