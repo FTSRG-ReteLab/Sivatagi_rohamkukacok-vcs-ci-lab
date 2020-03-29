@@ -49,7 +49,8 @@ public class TrainControllerImpl extends Thread implements TrainController {
 		this.step = joystickPosition;
 		this.followSpeed();
 	}
-
+	
+	@Override
 	public void run() {
 		TimerTask task = new TimerTask() {
 
