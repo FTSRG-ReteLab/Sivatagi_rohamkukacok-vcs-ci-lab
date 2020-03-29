@@ -47,10 +47,10 @@ public class TrainControllerImpl implements TrainController {
 	}
 
 	//In everey 0,1 sec the reference speed is changed based on the joystick position (step)
-	public void periodicSpeedChange(){
+	public void periodicSpeedChange(long periodTime){
 		while (true){
 			try {
-				Thread.sleep(100);
+				Thread.sleep(periodTime);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
