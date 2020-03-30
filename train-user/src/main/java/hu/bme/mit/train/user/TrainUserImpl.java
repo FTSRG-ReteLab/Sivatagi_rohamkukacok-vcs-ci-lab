@@ -11,16 +11,23 @@ public class TrainUserImpl implements TrainUser {
 	private TrainController controller;
 	private int joystickPosition;
 	private String ID;
+	private boolean alarmFlag;
 
 	public TrainUserImpl(TrainController controller) {
 		this.controller = controller;
 		String rand  = String.valueOf(new Random().nextInt(200));
 		this.ID = 'U' + rand + 20200309;
+		alarmFlag = false;
 	}
 
 	@Override
 	public boolean getAlarmFlag() {
-		return false;
+		return alarmFlag;
+	}
+
+	@Override
+	public void setAlarmFlag(boolean alarmFlag) {
+		this.alarmFlag = alarmFlag;
 	}
 
 	@Override

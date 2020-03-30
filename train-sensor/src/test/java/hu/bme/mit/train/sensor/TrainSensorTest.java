@@ -1,20 +1,53 @@
 package hu.bme.mit.train.sensor;
 
-import org.junit.Assert;
+import hu.bme.mit.train.interfaces.*;
 import org.junit.Before;
 import org.junit.Test;
-//import static org.mockito.Mockito.*; 
+
+import static org.mockito.Mockito.*;
 // NOTE please set it back as you work on LAB3
 
 public class TrainSensorTest {
+    TrainSensor ts;
+    TrainUser MockUser;
+    TrainController MockController;
 
     @Before
     public void before() {
-        // TODO Add initializations
+        MockController = mock(TrainController.class);
+        MockUser = mock(TrainUser.class);
+        ts = new TrainSensorImpl(MockController, MockUser);
     }
 
     @Test
-    public void ThisIsAnExampleTestStub() {
-        // TODO Delete this and add test cases based on the issues
+    public void NegativeSpeedLimitTest() {
+        ts.overrideSpeedLimit(-50);
+        verify(MockUser, times(1)).setAlarmFlag(true);
+        verify(MockUser, times(0)).setAlarmFlag(false);
+    }
+
+    @Test
+    public void TooLargeSpeedLimitTest() {
+        ts.overrideSpeedLimit(600);
+        verify(MockUser, times(1)).setAlarmFlag(true);
+        verify(MockUser, times(0)).setAlarmFlag(false);
+    }
+
+    @Test
+    public void TooSlowSpeedLimitTest() {
+        when(MockController.getReferenceSpeed()).thenReturn(150);
+
+        ts.overrideSpeedLimit(50);
+
+        verify(MockController, times(1)).getReferenceSpeed();
+        verify(MockUser, times(1)).setAlarmFlag(true);
+        verify(MockUser, times(0)).setAlarmFlag(false);
+    }
+
+    @Test
+    public void NormalSpeedLimitTest() {
+        ts.overrideSpeedLimit(100);
+        verify(MockUser, times(1)).setAlarmFlag(false);
+        verify(MockUser, times(0)).setAlarmFlag(true);
     }
 }
