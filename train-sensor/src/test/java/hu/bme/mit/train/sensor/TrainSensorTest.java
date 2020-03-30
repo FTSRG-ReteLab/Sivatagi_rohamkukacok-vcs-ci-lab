@@ -1,6 +1,7 @@
 package hu.bme.mit.train.sensor;
 
 import hu.bme.mit.train.interfaces.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,8 +47,12 @@ public class TrainSensorTest {
 
     @Test
     public void NormalSpeedLimitTest() {
+        when(MockController.getReferenceSpeed()).thenReturn(150);
+
         ts.overrideSpeedLimit(100);
-        verify(MockUser, times(1)).setAlarmFlag(false);
-        verify(MockUser, times(0)).setAlarmFlag(true);
+        int sl = ts.getSpeedLimit();
+
+        Assert.assertEquals(100, sl);
+        verify(MockController, times(1)).getReferenceSpeed();
     }
 }
